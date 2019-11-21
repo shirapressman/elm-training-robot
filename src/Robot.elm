@@ -8,11 +8,6 @@ import Html.Events exposing (onClick)
 import Json.Decode
 
 
-
---main =
---Browser.element { init = init, update = update, view = view, subscriptions = subscriptions }
-
-
 type alias Model =
     { x : Float
     , y : Float
@@ -20,6 +15,7 @@ type alias Model =
     , down : Int
     , left : Int
     , right : Int
+    , color : String
     }
 
 
@@ -27,9 +23,9 @@ type Msg
     = KeyDown Int
 
 
-init : Float -> Float -> Int -> Int -> Int -> Int -> Model
-init x y up down left right =
-    { x = x, y = y, up = up, down = down, left = left, right = right }
+init : Float -> Float -> Int -> Int -> Int -> Int -> String -> Model
+init x y up down left right color =
+    { x = x, y = y, up = up, down = down, left = left, right = right, color = color }
 
 
 subscriptions : Model -> Sub Msg
@@ -44,40 +40,27 @@ update msg model =
             Debug.log "msg" msg
     in
     case msg of
-        KeyDown code ->
-            case code of
-                38 ->
-                    { model | x = model.x - 1 }
+        KeyDown button ->
+            if button == model.up then
+                { model | y = model.y - 7 }
 
-                40 ->
-                    { model | y = model.y - 1 }
+            else if button == model.down then
+                { model | y = model.y + 7 }
 
-                39 ->
-                    { model | x = model.x + 1 }
+            else if button == model.right then
+                { model | x = model.x - 7 }
 
-                37 ->
-                    { model | y = model.y + 1 }
+            else if button == model.left then
+                { model | x = model.x + 7 }
 
-                87 ->
-                    { model | x = model.x - 1 }
-
-                83 ->
-                    { model | y = model.y - 1 }
-
-                69 ->
-                    { model | x = model.x + 1 }
-
-                65 ->
-                    { model | y = model.y + 1 }
-
-                defualt ->
-                    model
+            else
+                model
 
 
 view : String -> Model -> Html.Html Msg
 view name model =
     Html.div
-        [ style "background-color" "black"
+        [ style "background-color" model.color
         , style "width" "30px"
         , style "height" "30px"
         , style "position" "absolute"
