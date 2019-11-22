@@ -35,10 +35,6 @@ subscriptions model =
 
 update : Msg -> Model -> Model
 update msg model =
-    let
-        _ =
-            Debug.log "msg" msg
-    in
     case msg of
         KeyDown button ->
             if button == model.up then

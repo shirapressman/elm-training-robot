@@ -28,6 +28,16 @@ type alias Model =
     }
 
 
+init : flags -> ( Model, Cmd Msg )
+init _ =
+    ( { robot1 = Robot.init 50 50 87 83 68 65 "red"
+      , robot2 = Robot.init 100 100 38 40 39 37 "blue"
+      , robot3 = Robot.init 150 150 104 98 102 100 "green"
+      }
+    , Cmd.none
+    )
+
+
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.batch
@@ -48,16 +58,6 @@ update msg model =
 
         Robot3Msg robotMsg ->
             ( { model | robot3 = Robot.update robotMsg model.robot3 }, Cmd.none )
-
-
-init : flags -> ( Model, Cmd Msg )
-init _ =
-    ( { robot1 = Robot.init 50 50 87 83 68 65 "red"
-      , robot2 = Robot.init 100 100 38 40 39 37 "blue"
-      , robot3 = Robot.init 150 150 104 98 102 100 "green"
-      }
-    , Cmd.none
-    )
 
 
 view : Model -> Html.Html Msg
